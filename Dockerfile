@@ -10,11 +10,18 @@ RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 # ---------- Stage 2: imagen final ----------
 FROM node:22-alpine AS runtime
 
-LABEL org.opencontainers.image.title="devops-nodejs" \
+LABEL org.opencontainers.image.title="devsu-demo-devops-nodejs" \
       org.opencontainers.image.description="Demo DevOps API (users) - Node.js + Express + PostgreSQL"
 
 ENV NODE_ENV=production \
     PORT=8000
+
+# La app arranca con "node" directamente: npm, npx, yarn y corepack no se usan en
+# runtime. Se eliminan para reducir superficie de ataque (CVEs en el npm que trae
+# la imagen base) y el tamaño de la imagen.
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack \
+           /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack \
+           /opt/yarn-* /usr/local/bin/yarn /usr/local/bin/yarnpkg
 
 WORKDIR /app
 
