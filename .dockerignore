@@ -1,0 +1,16 @@
+node_modules
+coverage
+.git
+.github
+.env
+.env.*
+!.env.example
+k8s
+docs
+*.md
+Dockerfile
+docker-compose.yml
+.dockerignore
+**/*.test.js
+eslint.config.js
+sonar-project.properties

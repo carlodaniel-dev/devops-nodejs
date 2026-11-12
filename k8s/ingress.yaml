@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: devsu-demo-api
+  labels:
+    app.kubernetes.io/name: devsu-demo-api
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 1m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - devsu-demo.local
+      secretName: devsu-demo-tls   # scripts/create-tls-secret.sh (o cert-manager en producción)
+  rules:
+    - host: devsu-demo.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: devsu-demo-api
+                port:
+                  name: http

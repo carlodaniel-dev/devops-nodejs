@@ -1,0 +1,14 @@
+# Configuración NO sensible. Las credenciales viven en el Secret "devsu-demo-db".
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: devsu-demo-config
+  labels:
+    app.kubernetes.io/name: devsu-demo-api
+data:
+  PORT: "8000"
+  NODE_ENV: production
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_NAME: demo
+  DB_SYNC: "false"
