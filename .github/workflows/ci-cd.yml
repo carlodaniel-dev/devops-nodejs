@@ -179,7 +179,7 @@ jobs:
           kind load docker-image "$IMAGE" --name devsu-demo
 
       - name: Create secrets
-        run: ./scripts/create-secrets.sh   # contraseña aleatoria (clúster efímero)
+        run: bash scripts/create-secrets.sh   # contraseña aleatoria (clúster efímero)
 
       - name: Deploy
         run: |
@@ -198,7 +198,7 @@ jobs:
         run: |
           kubectl -n devsu-demo port-forward svc/devsu-demo-api 8080:80 &
           sleep 5
-          ./scripts/smoke-test.sh http://localhost:8080 | tee smoke.log
+          bash scripts/smoke-test.sh http://localhost:8080 | tee smoke.log
           { echo '### Smoke test'; echo '```'; cat smoke.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Debug info on failure
@@ -238,7 +238,7 @@ jobs:
       - name: Create secrets
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        run: ./scripts/create-secrets.sh
+        run: bash scripts/create-secrets.sh
 
       - name: Deploy
         run: |

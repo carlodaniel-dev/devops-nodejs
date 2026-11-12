@@ -1,4 +1,5 @@
-
+#!/usr/bin/env bash
+# Despliegue completo en minikube: construye la imagen dentro de minikube y aplica los manifiestos.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -10,8 +11,8 @@ minikube addons enable metrics-server
 eval "$(minikube docker-env)"
 docker build -t "$IMAGE" .
 
-./scripts/create-secrets.sh
-./scripts/create-tls-secret.sh
+bash ./scripts/create-secrets.sh
+bash ./scripts/create-tls-secret.sh
 
 # Copia temporal de k8s/ para no modificar kustomization.yaml versionado
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
